@@ -1,0 +1,2 @@
+<input {{ $attributes->merge(['class' => 'form-control ' . ($errors->has($attributes['name']) ? 'is-invalid' : null)]) }}  value="{{ old($attributes['name']) }}">
+<div class="invalid-feedback">{{ $errors->first($attributes['name']) }}</div>
