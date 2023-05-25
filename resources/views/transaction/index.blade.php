@@ -8,21 +8,36 @@
 <div class="row">
     <div class="col-lg-9">
         <div class="block">
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item select-checkbox" href="#" data-value="true">Marcar Tudo</a>
+              <a class="dropdown-item select-checkbox" href="#" data-value="false">Desmarcar Tudo</a>
+              <a class="dropdown-item" href="#" onclick="pay()">Something else here</a>
+            </div>
+          </div>
+
             <a name="" id="" class="btn btn-success" href="{{ route('transaction.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Novo Lançamento</a>
             <hr>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Data</th>
-                        
-                        <th>Descrião</th>
-                        <th>Categoria</th>
-                        <th>Tipo</th>
-                        <th>Valor</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-            </table>
+            <form action="" id="form">
+              @csrf
+              <table class="table table-striped">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th>Data</th>
+                          
+                          <th>Descrião</th>
+                          <th>Categoria</th>
+                          <th>Tipo</th>
+                          <th>Valor</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+              </table>
+            </form>
         </div>
     </div>
     <div class="col ">
@@ -105,5 +120,21 @@
                 {data: 'status'},
             ],
         });
+
+        $('.select-checkbox').click(function (e) { 
+          e.preventDefault();
+          $('.checkbox').prop('checked', $(this).data('value'))
+        });
+
+        function pay() {
+          $.ajax({
+            type: "POST",
+            url: "{{ route('transaction.pay') }}",
+            data: $('#form').serialize(),
+            success: function (response) {
+              console.log(response)
+            }
+          });
+        }
     </script>
 @endsection

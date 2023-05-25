@@ -74,10 +74,7 @@ class TransactionController extends Controller
     {
         $data = $request->except(['_method', '_token']);
 
-        dd($data);
-
-
-        if(!$transaction = $this->transactionService->create($data)) {
+        if(!$this->transactionService->create($data)) {
             return redirect()->route('transaction.index')->with('error', $this->transactionService->message());
         }
 
@@ -153,5 +150,9 @@ class TransactionController extends Controller
         $this->transactionService->delete($transaction);
 
         return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
+    }
+
+    public function pay(Request $request) {
+        dd($request->all());
     }
 }

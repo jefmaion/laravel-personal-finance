@@ -64,6 +64,8 @@
         <x-form.input type="date" name="date" value="{{ $transaction->date->format('Y-m-d') ?? date('Y-m-d') }}" />
     </div> --}}
 
+    
+    
 
 
     @if($transaction->id == null)

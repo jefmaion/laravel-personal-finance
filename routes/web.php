@@ -23,6 +23,8 @@ Route::get('/', function () {
 
 
 Route::resource('/transaction', TransactionController::class);
+Route::post('/transaction/pay', [Transaction::class, 'pay'])->name('transaction.pay');
+
 Route::resource('/category', CategoryController::class);
 Route::resource('/account', AccountController::class);
 Route::resource('/payment', PaymentController::class);
