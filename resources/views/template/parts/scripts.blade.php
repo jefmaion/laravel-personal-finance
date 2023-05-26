@@ -6,4 +6,5 @@
 {{-- <script src="{{ asset('assets') }}/vendor/jquery-validation/jquery.validate.min.js"></script> --}}
 {{-- <script src="{{ asset('assets') }}/js/charts-home.js"></script> --}}
 <script src="{{ asset('assets') }}/js/front.js"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 @yield('scripts')

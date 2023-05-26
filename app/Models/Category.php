@@ -18,7 +18,7 @@ class Category extends Model
 
     public function subCategories()
     {
-        return $this->hasMany(Category::class, 'category_id');
+        return $this->hasMany(Category::class, 'category_id')->orderBy('name', 'asc');
     }
 
     public function parent() {

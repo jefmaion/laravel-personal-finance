@@ -23,8 +23,12 @@ class CategoryService extends Services {
 
     }
 
+    public function listParents() {
+        return Category::select(['id', 'name'])->where('category_id', 0)->orWhereNull('category_id')->get();
+    }
+
     public function listCategories() {
-        return Category::select(['id', 'name'])->where('category_id', 0)->orWhereNull('category_id')->get()->toArray();
+        return $this->listParents()->toArray();
     }
 
     public function toSelectBox($fields = [])

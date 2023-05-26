@@ -22,8 +22,10 @@ Route::get('/', function () {
 });
 
 
+Route::get('/transaction/description', [TransactionController::class, 'description'])->name('transaction.description');
+Route::post('/transaction/actions/pay/{status}', [TransactionController::class, 'pay'])->name('transaction.actions.pay');
+Route::post('/transaction/actions/delete', [TransactionController::class, 'deleteAll'])->name('transaction.actions.delete');
 Route::resource('/transaction', TransactionController::class);
-Route::post('/transaction/pay', [Transaction::class, 'pay'])->name('transaction.pay');
 
 Route::resource('/category', CategoryController::class);
 Route::resource('/account', AccountController::class);

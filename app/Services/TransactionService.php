@@ -31,6 +31,14 @@ class TransactionService extends Services {
         return Transaction::where('type', 'R')->where('is_paid', 1)->sum('value');
     }
     
+    public function listDescriptions() {
+        $data =  Transaction::select(['description as data', 'description as value'])->orderBy('description')->distinct()->get()->toArray();
+
+        return json_encode([
+            'query' => 'Unit',
+            'suggestions' => $data
+        ]);
+    }
 
     public function create($data) {
 
@@ -53,9 +61,22 @@ class TransactionService extends Services {
         return true;
     }
 
-    public function listToDatatable() {
+    public function changePaid($transactions=[], $status=1) {
+        if(Transaction::whereIn('id', array_values($transactions))->update(['is_paid' => $status])) {
+            $this->_message = 'Registros Atualizados com sucesso';
+            return true;
+        }
+
+        return false;
+    }
+
+    public function listToDatatable($from, $to) {
         $data = [];
-        $transactions = Transaction::with(['category'])->orderBy('id', 'desc')->orderBy('date', 'desc')->get();
+        $transactions = Transaction::with(['category'])
+                        ->whereBetween('date', [$from, $to])
+                        ->orderBy('id', 'desc')
+                        ->orderBy('date', 'desc')
+                        ->get();
 
         $link = '<a href="%s">%s</a>';
         $label = '<span class="text-%s">%s</span>';
@@ -70,7 +91,7 @@ class TransactionService extends Services {
 
             $check = '
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="checkbox custom-control-input" value="'.$item->id.'" id="checkbox'.$item->id.'">
+                <input type="checkbox" class="checkbox custom-control-input" name="transactions[]" value="'.$item->id.'" id="checkbox'.$item->id.'">
                 <label class="custom-control-label" for="checkbox'.$item->id.'">'.$item->date->format('d/m/Y').'</label>
             </div>
             ';

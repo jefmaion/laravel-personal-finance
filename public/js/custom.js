@@ -1,0 +1,1 @@
+$('.alert-app').delay(5000).fadeOut();

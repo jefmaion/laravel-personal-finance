@@ -11,7 +11,8 @@
 
     <div class="form-group col-4">
         <label for="">Tipo</label>
-        <x-form.select  name="type" :options="[['R', 'Receitas'], ['D', 'Despesas']]" value="{{ old('type', $transaction->type) }}" />
+        <x-form.select name="type" :options="[['R', 'Receitas'], ['D', 'Despesas']]"
+            value="{{ old('type', $transaction->type) }}" />
 
     </div>
 
@@ -22,69 +23,92 @@
 
     <div class="form-group col-12">
         <label class="form-control-label">Descrição</label>
-        <x-form.input type="text" class="font-weight-bold" name="description" value="{{ old('description', $transaction->description) }}" />
+        <x-form.input type="text" class="font-weight-bold" name="description"
+            value="{{ old('description', $transaction->description) }}" />
+
     </div>
 
 
 
     <div class="form-group col-6">
         <label class="form-control-label">Categoria</label>
-        <x-form.select  name="category_id" :options="$categories" value="{{ old('category_id', $transaction->category_id) }}" />
+        {{--
+        <x-form.select name="category_id" :options="$categories"
+            value="{{ old('category_id', $transaction->category_id) }}" /> --}}
+
+        <select class="form-control" name="" id="">
+            <option></option>
+            @foreach($categories as $cat)
+            <optgroup label="{{ $cat->name }}">
+                @foreach($cat->subcategories as $sub)
+                <option value="{{ $sub->id }}" {{ ($transaction->category_id == $sub->id) ? 'selected' : null }}>{{
+                    $sub->name }}</option>
+                @endforeach
+            </optgroup>
+            @endforeach
+
+        </select>
+
     </div>
 
 
     <div class="form-group col-3">
         <label class="form-control-label">Conta</label>
-        <x-form.select  name="account_id" :options="$accounts" value="{{ old('account_id', $transaction->account_id) }}" />
+        <x-form.select name="account_id" :options="$accounts"
+            value="{{ old('account_id', $transaction->account_id) }}" />
     </div>
 
     <div class="form-group col-3">
         <label class="form-control-label">Forma</label>
-        <x-form.select  name="payment_id" :options="$payments" value="{{ old('payment_id', $transaction->payment_id) }}" />
+        <x-form.select name="payment_id" :options="$payments"
+            value="{{ old('payment_id', $transaction->payment_id) }}" />
     </div>
 
-    
+
 
 
     <div class="form-group col-12">
         <label for="">Informações Complementares</label>
-        <textarea class="form-control" name="comments" id="" rows="3">{{ old('comments', $transaction->comments) }}</textarea>
+        <textarea class="form-control" name="comments" id=""
+            rows="3">{{ old('comments', $transaction->comments) }}</textarea>
     </div>
 
-    
 
-    <div class="form-group col-6 d-flex align-items-center">
+
+    <div class="form-group col-12 d-flex align-items-center">
         <x-form.checkbox name="is_paid" value="{{ $transaction->is_paid }}" label="Pago" />
     </div>
 
- 
+
 
     {{-- <div class="form-group col-6 mx-auto">
         <label class="form-control-label">Data do Pagamento</label>
         <x-form.input type="date" name="date" value="{{ $transaction->date->format('Y-m-d') ?? date('Y-m-d') }}" />
     </div> --}}
 
-    
-    
+
+
 
 
     @if($transaction->id == null)
-        
-        
+
+
     <div class="form-group col-12 d-flex align-items-center">
+
         <x-form.checkbox name="repeat" value="{{ $transaction->is_paid }}" label="Repetir Lançamento" />
     </div>
-        
 
-        <div class="container-repeat form-group col-2">
-            <label class="form-control-label">Repetir</label>
-            <x-form.input type="text" name="num_repeat" />
-        </div>
 
-        <div class="container-repeat form-group col-4">
-            <label for="">Período</label>
-            <x-form.select  name="period" :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]"  />
-        </div>
+    <div class="container-repeat d-none form-group col-2">
+        <label class="form-control-label">Repetir</label>
+        <x-form.input type="text" name="num_repeat" />
+    </div>
+
+    <div class="container-repeat d-none form-group col">
+        <label for="">Período</label>
+        <x-form.select name="period"
+            :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]" />
+    </div>
     @endif
 
     <div class="form-group col-12">
@@ -101,23 +125,83 @@
 
 </div>
 
+@section('css')
+<style>
+    .autocomplete-suggestions {
+        border: 1px solid #999;
+        background: #2d3035;;
+        cursor: default;
+        overflow: auto;
+    }
+
+    .autocomplete-suggestion {
+        padding: 2px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .autocomplete-selected {
+        background: #343a40;;
+    }
+
+    .autocomplete-suggestions strong {
+        font-weight: bold;
+        /* color: #3399FF; */
+    }
+</style>
+@endsection
 
 
 @section('scripts')
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 <script src="{{ asset('js/jquery.mask.config.js') }}"></script>
+<script src="{{ asset('js/jquery.autocomplete.js') }}"></script>
+<script>
+    var countries = [
+        { "value": "United Arab Emirates", "data": "AE" },
+        { "value": "United Kingdom",       "data": "UK" },
+        { "value": "United States",        "data": "US" }
+    ];
+    $('[name="description"]').autocomplete({
+
+        serviceUrl: '{{ route('transaction.description') }}',
+        onSelect: function (suggestion) {
+            // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        }
+
+
+        // lookup: countries,
+        // onSelect: function (suggestion) {
+        //     alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        // }
+    });
+</script>
 <script>
     $('[name="repeat"]').change(function (e) { 
         e.preventDefault();
-        if(!$(this).prop('checked')) {
-            $('.container-repeat').fadeOut()
-            $('.container-repeat input').attr('disabled', true);
-            $('.container-repeat select').attr('disabled', true);
-        } else {
+        // if(!$(this).prop('checked')) {
+        //     $('.container-repeat').fadeOut()
+        //     $('.container-repeat input').attr('disabled', true);
+        //     $('.container-repeat select').attr('disabled', true);
+        // } else {
+        //     $('.container-repeat').fadeIn()
+        //     $('.container-repeat input').attr('disabled', false);
+        //     $('.container-repeat select').attr('disabled', false);
+        // }
+        viewRepeatFields($(this).prop('checked'))
+    });
+
+    function viewRepeatFields(status) {
+        $('.container-repeat').fadeOut()
+        $('.container-repeat input').attr('disabled', true);
+        $('.container-repeat select').attr('disabled', true);
+
+        if(status) {
+            $('.container-repeat').removeClass('d-none');
             $('.container-repeat').fadeIn()
             $('.container-repeat input').attr('disabled', false);
             $('.container-repeat select').attr('disabled', false);
         }
-    });
+    }
 </script>
 @endsection

@@ -40,14 +40,19 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
 
+        $dateFrom = $request->get('from') ?? date('Y-m-01');
+        $dateTo   = $request->get('to') ?? date('Y-m-t');
+
         if($request->ajax()){
-           return $this->transactionService->listToDatatable();
+           return $this->transactionService->listToDatatable($dateFrom, $dateTo);
         }
 
         $expenses = $this->transactionService->sumExpenses();
         $incomes = $this->transactionService->sumIncomes();
 
-        return view('transaction.index', compact('expenses', 'incomes'));
+        
+
+        return view('transaction.index', compact('expenses', 'incomes', 'dateFrom', 'dateTo'));
     }
     /**
      * Show the form for creating a new resource.
@@ -58,7 +63,7 @@ class TransactionController extends Controller
     {
         $transaction =  new Transaction();
         $transaction->date = date('Y-m-d');
-        $categories = $this->categoryService->toSelectBox();
+        $categories = $this->categoryService->listParents();
         $payments = $this->paymentService->toSelectBox();
         $accounts = $this->accountService->toSelectBox();
         return view('transaction.create', compact('transaction', 'categories', 'payments', 'accounts'));
@@ -109,7 +114,7 @@ class TransactionController extends Controller
             return redirect()->route('transaction.index')->with('error', $this->transactionService->message());
         }
 
-        $categories = $this->categoryService->toSelectBox();
+        $categories = $this->categoryService->listParents();
         $payments = $this->paymentService->toSelectBox();
         $accounts = $this->accountService->toSelectBox();
         return view('transaction.edit', compact('transaction', 'categories', 'payments', 'accounts'));
@@ -152,7 +157,18 @@ class TransactionController extends Controller
         return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
     }
 
-    public function pay(Request $request) {
-        dd($request->all());
+    public function pay(Request $request, $isPaid) {
+
+        $this->transactionService->changePaid($request->get('transactions'), $isPaid);
+        return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
+    }
+
+    public function deleteAll(Request $request) {
+        $this->transactionService->deleteBatch($request->get('transactions'));
+        return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
+    }
+
+    public function description() {
+        return $this->transactionService->listDescriptions();
     }
 }

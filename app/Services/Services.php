@@ -75,6 +75,17 @@ class Services
         return true;
     }
 
+    public function deleteBatch($data) {
+        if(!$this->model->whereIn('id', array_values($data))->delete()) {
+            $this->_message = 'Não foi possível excluir os registros';
+            return false;
+        }
+
+        $this->_message = 'Registro excluído com sucesso!';
+
+        return true;
+    }
+
     public function toSelectBox($fields=[]) {
 
 
