@@ -168,7 +168,8 @@ class TransactionController extends Controller
         return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
     }
 
-    public function description() {
-        return $this->transactionService->listDescriptions();
+    public function description(Request $request) {
+
+        return $this->transactionService->listDescriptions($request->get('query'));
     }
 }

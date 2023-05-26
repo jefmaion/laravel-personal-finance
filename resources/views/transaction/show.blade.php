@@ -13,9 +13,7 @@
                 {{ $transaction->date->format('d/m/Y') }}  -   {{ $transaction->description }}
             </h2>
 
-            <p class="card-text">
-                {{ $transaction->comments }}
-            </p>
+            
 
             <p class="contributions text-center text-{{ ($transaction->type == 'R') ? 'success' : 'danger' }} mt-0">
                 {{ $transaction->transactionType }}
@@ -43,9 +41,11 @@
                 {{ $transaction->status }}
             </p>
 
-            <p class="card-center">
-                {{ $transaction->created_at->diffForHUmans() }} | {{ $transaction->updated_at->diffForHUmans() }}
+            
+            <p class="card-text">
+                {{ $transaction->comments }}
             </p>
+            <hr>
 
             <a href="{{ route('transaction.index') }}" class="btn btn-secondary">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>

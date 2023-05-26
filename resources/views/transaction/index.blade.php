@@ -6,7 +6,51 @@
 
 @section('content')
 <div class="row">
-	<div class="col-lg-9">
+	<div class="col-12 ">
+
+
+		<div class="row">
+			
+			<div class="col-md-4">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title ">
+							<div class="icon "><i class="icon-contract"></i></div><strong>Receitas</strong>
+						</div>
+						<div class="number text-success">R$ {{ currency($incomes) }}</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-md-4 ">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title">
+							<div class="icon"><i class="icon-user-1"></i></div><strong>Despesas</strong>
+						</div>
+						<div class="number text-danger">R$ {{ currency($expenses) }}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 d-flex">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title">
+							<div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Saldo</strong>
+						</div>
+						<div class="number text-{{ ($incomes - $expenses) < 0 ? 'danger' : 'success'  }}">R$ {{
+							currency($incomes -
+							$expenses) }}</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-lg-12">
 		<div class="block">
 
 			<div class="row">
@@ -64,7 +108,7 @@
 			<hr>
 			<form method="POST" id="form">
 				@csrf
-				<table class="table table-striped" id="table-transaction">
+				<table class="table table-striped " id="table-transaction">
 					<thead class="thead-dark">
 						<tr>
 							<th>
@@ -72,8 +116,9 @@
 								Data
 							</th>
 
-							<th>Descrião</th>
+							<th>Descrição</th>
 							<th>Categoria</th>
+							<th>Conta</th>
 							<th>Tipo</th>
 							<th>Valor</th>
 							<th>Status</th>
@@ -83,50 +128,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="col ">
 
-
-		<div class="row">
-			<div class="col-md-12 d-flex">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title">
-							<div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Saldo</strong>
-						</div>
-						<div class="number text-{{ ($incomes - $expenses) < 0 ? 'danger' : 'success'  }}">R$ {{
-							currency($incomes -
-							$expenses) }}</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title ">
-							<div class="icon "><i class="icon-contract"></i></div><strong>Receitas</strong>
-						</div>
-						<div class="number text-success">R$ {{ currency($incomes) }}</div>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-md-12 ">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title">
-							<div class="icon"><i class="icon-user-1"></i></div><strong>Despesas</strong>
-						</div>
-						<div class="number text-danger">R$ {{ currency($expenses) }}</div>
-					</div>
-				</div>
-			</div>
-
-
-
-		</div>
-	</div>
 </div>
 
 
@@ -176,8 +178,8 @@
             order: [],
             pageLength: 10,
             lengthMenu: [
-                [5,10, 25, 50, -1],
-                [5,10, 25, 50, 'Tudo'],
+                [5,10, 15, 25, 50, -1],
+                [5,10, 15, 25, 50, 'Tudo'],
             ],
             columnDefs: [
                 { className: "align-middle", targets: "_all" },
@@ -195,6 +197,7 @@
                 {data: 'date'},
                 {data: 'description'},
                 {data: 'category'},
+                {data: 'account'},
                 {data: 'type'},
                 {data: 'value'},
                 {data: 'status'},

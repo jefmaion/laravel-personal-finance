@@ -31,5 +31,11 @@
     <button type="button" class="close" data-dismiss="alert">×</button>    
     <i class="fa fa-times-circle" aria-hidden="true"></i>
     Please check the form below for errors
+    
+    <ul>
+    @foreach($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+</ul>
 </div>
 @endif

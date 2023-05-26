@@ -36,7 +36,7 @@
         <x-form.select name="category_id" :options="$categories"
             value="{{ old('category_id', $transaction->category_id) }}" /> --}}
 
-        <select class="form-control" name="" id="">
+        <select class="form-control" name="category_id" id="">
             <option></option>
             @foreach($categories as $cat)
             <optgroup label="{{ $cat->name }}">

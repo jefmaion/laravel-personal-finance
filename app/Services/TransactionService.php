@@ -31,8 +31,8 @@ class TransactionService extends Services {
         return Transaction::where('type', 'R')->where('is_paid', 1)->sum('value');
     }
     
-    public function listDescriptions() {
-        $data =  Transaction::select(['description as data', 'description as value'])->orderBy('description')->distinct()->get()->toArray();
+    public function listDescriptions($param) {
+        $data =  Transaction::select(['description as data', 'description as value'])->where('description', 'LIKE', '%'.$param.'%')->orderBy('description')->distinct()->get()->toArray();
 
         return json_encode([
             'query' => 'Unit',
@@ -72,10 +72,10 @@ class TransactionService extends Services {
 
     public function listToDatatable($from, $to) {
         $data = [];
-        $transactions = Transaction::with(['category'])
+        $transactions = Transaction::with(['category', 'account'])
                         ->whereBetween('date', [$from, $to])
-                        ->orderBy('id', 'desc')
                         ->orderBy('date', 'desc')
+                        ->orderBy('id', 'desc')
                         ->get();
 
         $link = '<a href="%s">%s</a>';
@@ -102,6 +102,7 @@ class TransactionService extends Services {
                 'category' => $item->category->name,
                 'description' => sprintf($link, route('transaction.show', $item), $item->description),
                 'value' => sprintf($label, ($item->type == 'D' ? 'danger' : 'success'), 'R$ ' . currency($item->value)),
+                'account' => $item->account->name,
                 'status' => $item->statusSpan
             ];
         }
