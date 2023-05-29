@@ -30,7 +30,9 @@ class StoreTransactionRequest extends FormRequest
             'description' => 'required',
             'category_id' => ['required'],
             'account_id'=> ['required'],
-            'payment_id' => ['required']
+            'payment_id' => ['required'],
+            'num_repeat' => ['required_if:repeat,1'],
+            'period'     => ['required_if:repeat,1'],
         ];
     }
 

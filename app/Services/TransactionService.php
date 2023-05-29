@@ -24,11 +24,11 @@ class TransactionService extends Services {
 
     public function sumExpenses() {
 
-        return Transaction::where('type', 'D')->where('is_paid', 1)->sum('value');
+        return Transaction::where('type', 'D')->where('is_paid', 1)->sum('value') + 0;
     }
 
     public function sumIncomes() {
-        return Transaction::where('type', 'R')->where('is_paid', 1)->sum('value');
+        return Transaction::where('type', 'R')->where('is_paid', 1)->sum('value') + 0;
     }
     
     public function listDescriptions($param) {

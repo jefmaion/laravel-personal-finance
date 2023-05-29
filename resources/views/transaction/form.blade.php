@@ -36,19 +36,19 @@
         <x-form.select name="category_id" :options="$categories"
             value="{{ old('category_id', $transaction->category_id) }}" /> --}}
 
-        <select class="form-control" name="category_id" id="">
+        <select class="form-control {{ ($errors->has('category_id') ? 'is-invalid' : null) }}" name="category_id" id="">
             <option></option>
             @foreach($categories as $cat)
             <optgroup label="{{ $cat->name }}">
                 @foreach($cat->subcategories as $sub)
-                <option value="{{ $sub->id }}" {{ ($transaction->category_id == $sub->id) ? 'selected' : null }}>{{
+                <option value="{{ $sub->id }}" {{ (old('category_id', $transaction->category_id) == $sub->id) ? 'selected' : null }}>{{
                     $sub->name }}</option>
                 @endforeach
             </optgroup>
             @endforeach
 
         </select>
-
+        <div class="invalid-feedback">{{ $errors->first('category_id') }}</div>
     </div>
 
 
@@ -76,7 +76,7 @@
 
 
     <div class="form-group col-12 d-flex align-items-center">
-        <x-form.checkbox name="is_paid" value="{{ $transaction->is_paid }}" label="Pago" />
+        <x-form.checkbox name="is_paid" value="{{ old('is_paid', $transaction->is_paid) }}" label="Pago" />
     </div>
 
 
@@ -91,24 +91,21 @@
 
 
     @if($transaction->id == null)
+        <div class="form-group col-12 d-flex align-items-center">
+            <x-form.checkbox name="repeat" value="{{ old('repeat') }}" label="Repetir Lançamento" />
+        </div>
 
 
-    <div class="form-group col-12 d-flex align-items-center">
+        <div class="container-repeat d-none form-group col-2">
+            <label class="form-control-label">Repetir</label>
+            <x-form.input type="text" name="num_repeat" />
+        </div>
 
-        <x-form.checkbox name="repeat" value="{{ $transaction->is_paid }}" label="Repetir Lançamento" />
-    </div>
-
-
-    <div class="container-repeat d-none form-group col-2">
-        <label class="form-control-label">Repetir</label>
-        <x-form.input type="text" name="num_repeat" />
-    </div>
-
-    <div class="container-repeat d-none form-group col">
-        <label for="">Período</label>
-        <x-form.select name="period"
-            :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]" />
-    </div>
+        <div class="container-repeat d-none form-group col">
+            <label for="">Período</label>
+            <x-form.select name="period"
+                :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]" />
+        </div>
     @endif
 
     <div class="form-group col-12">
@@ -177,21 +174,15 @@
     });
 </script>
 <script>
+viewRepeatFields({{ old('repeat') }})
+
     $('[name="repeat"]').change(function (e) { 
         e.preventDefault();
-        // if(!$(this).prop('checked')) {
-        //     $('.container-repeat').fadeOut()
-        //     $('.container-repeat input').attr('disabled', true);
-        //     $('.container-repeat select').attr('disabled', true);
-        // } else {
-        //     $('.container-repeat').fadeIn()
-        //     $('.container-repeat input').attr('disabled', false);
-        //     $('.container-repeat select').attr('disabled', false);
-        // }
         viewRepeatFields($(this).prop('checked'))
     });
 
     function viewRepeatFields(status) {
+
         $('.container-repeat').fadeOut()
         $('.container-repeat input').attr('disabled', true);
         $('.container-repeat select').attr('disabled', true);

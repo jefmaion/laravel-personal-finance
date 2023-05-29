@@ -14,9 +14,9 @@ if(!function_exists('anchor')) {
 }
 
 if(!function_exists('currency')) {
-    function currency($value=null, $toDatabase=false) {
+    function currency($value=null, $toDatabase=false, $default="0") {
         if (empty($value)) {
-            return;
+            return $default;
         }
 
         if($toDatabase) {
