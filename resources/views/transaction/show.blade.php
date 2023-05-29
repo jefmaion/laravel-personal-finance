@@ -67,13 +67,13 @@
 
                     <a class="dropdown-item" href="{{ route('transaction.edit', $transaction) }}">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
-                        Editar Conta
+                        Editar Lançamento
                     </a>
 
                     <a class="dropdown-item" data-toggle="modal" data-target="#modal-delete-{{ $transaction->id }}"
                         href="#">
                         <i class="fa fa-trash" aria-hidden="true"></i>
-                        Excluir Conta
+                        Excluir Lançamento
                     </a>
 
                 </div>

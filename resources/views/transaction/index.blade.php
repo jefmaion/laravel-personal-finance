@@ -49,6 +49,8 @@
 			</div>
 
 		</div>
+
+
 	</div>
 	<div class="col-lg-12">
 		<div class="block">
@@ -80,6 +82,11 @@
 								Remover Pagamento
 							</a>
 							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{ route('transaction.import') }}">
+								<i class="fa fa-times" aria-hidden="true"></i>
+								Importar
+							</a>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-delete-selected">
 								<i class="fa fa-trash-o" aria-hidden="true"></i>
 								Excluir</a>
@@ -87,7 +94,7 @@
 					</div>
 		
 					<a name="" id="" class="btn btn-success mr-2" href="{{ route('transaction.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Novo Lançamento</a>
-					<a name="" id="" class="btn btn-info" href="{{ route('transaction.import') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Importar</a>
+					{{-- <a name="" id="" class="btn btn-info" href="{{ route('transaction.import') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Importar</a> --}}
 
 				</div>
 				<div class="col">

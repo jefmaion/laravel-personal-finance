@@ -77,14 +77,14 @@ class TransactionService extends Services {
                         ->get();
 
         $link = '<a href="%s">%s</a>';
-        $label = '<span class="text-%s">%s</span>';
+        $label = '<span class="text-%s"><b>%s</b></span>';
 
         foreach($transactions as $item) {
 
-            $type = '<i class="fa fa-plus text-success" aria-hidden="true"></i> ';
+            $type = '+';
 
             if($item->type == 'D') {
-                $type = '<i class="fa fa-minus text-danger" aria-hidden="true"></i> ';
+                $type = '-';
             } 
 
             $check = '
@@ -99,7 +99,7 @@ class TransactionService extends Services {
                 'type' => $type .  $item->transactionType,
                 'category' => $item->category->name,
                 'description' => sprintf($link, route('transaction.show', $item), $item->description),
-                'value' => sprintf($label, ($item->type == 'D' ? 'danger' : 'success'), 'R$ ' . currency($item->value)),
+                'value' => sprintf($label, ($item->type == 'D' ? 'danger' : 'success'), $type. currency($item->value)),
                 'account' => $item->account->name,
                 'status' => $item->statusSpan
             ];
