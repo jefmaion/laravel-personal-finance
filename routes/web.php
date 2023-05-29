@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::get('/transaction/description', [TransactionController::class, 'description'])->name('transaction.description');
 Route::post('/transaction/actions/pay/{status}', [TransactionController::class, 'pay'])->name('transaction.actions.pay');
 Route::post('/transaction/actions/delete', [TransactionController::class, 'deleteAll'])->name('transaction.actions.delete');
+Route::get('/transaction/import', [TransactionController::class, 'import'])->name('transaction.import');
+Route::post('/transaction/import', [TransactionController::class, 'import'])->name('transaction.import.upload');
+Route::post('/transaction/import/save', [TransactionController::class, 'importSave'])->name('transaction.import.save');
 Route::resource('/transaction', TransactionController::class);
 
 Route::resource('/category', CategoryController::class);

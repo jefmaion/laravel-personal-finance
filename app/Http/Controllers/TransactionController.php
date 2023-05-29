@@ -9,7 +9,9 @@ use App\Services\AccountService;
 use App\Services\CategoryService;
 use App\Services\PaymentService;
 use App\Services\TransactionService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class TransactionController extends Controller
 {
@@ -171,5 +173,84 @@ class TransactionController extends Controller
     public function description(Request $request) {
 
         return $this->transactionService->listDescriptions($request->get('query'));
+    }
+
+    public function import(Request $request) {
+
+        if($request->isMethod('get')) {
+            return view('transaction.import');
+        }
+
+        $name = $request->file('report')->getClientOriginalName();
+        $request->file('report')->move(public_path('upload'), $name);
+
+        
+        if (!$xlsx = \Shuchkin\SimpleXLS::parse(public_path('upload') . '\\' . $name)) {
+            return;
+        } 
+
+        $rows = $xlsx->rows();
+        $data = [];
+
+        $i = 6;
+        $row = trim($rows[$i][1]);
+        while($row !== 'SALDO ANTERIOR') {
+            $item = $rows[$i];
+
+            $payment_id = null;
+
+            if(strpos($item[1], 'COMPRA CARTAO DEB') !== false) {
+                $payment_id = 2;
+            }
+
+            if(strpos($item[1], 'IOF ') !== false) {
+                $payment_id = 2;
+            }
+
+            if(strpos($item[1], 'REMUNERACAO APLICACAO AUTOMATICA') !== false) {
+                $payment_id = 3;
+            }
+
+            if(strpos($item[1], 'AUT. FAT.CARTAO') !== false) {
+                $payment_id = 2;
+            }
+
+            if(strpos($item[1], 'PIX ENVIADO') !== false) {
+                $payment_id = 1;
+            }
+
+            if(strpos($item[1], 'TED CONTA SALARIO') !== false) {
+                $payment_id = 3;
+            }
+
+            $date = explode("/", $item[0]);
+
+            $data[] = [
+                'date'        => date('Y-m-d', strtotime($date[1] . '/' . $date[0] . '/' . $date[2])),
+                'description' => ucwords(strtolower(trim($item[1]))),
+                'value'       => (empty($item[4])) ? currency($item[5], true) * -1 : currency($item[4], true),
+                'type'        => (empty($item[4])) ? 'D' : 'R',
+                'payment_id'  => $payment_id
+            ];
+
+            $row = trim($item[1]);
+            $i++;
+        }
+
+
+
+        $categories = $this->categoryService->listParents();
+        $payments = $this->paymentService->toSelectBox();
+        $accounts = $this->accountService->toSelectBox();
+
+        return view('transaction.import', compact('data', 'categories', 'payments', 'accounts'));
+
+    }
+
+    public function importSave(Request $request) {
+        $data = $request->get('import');
+
+        $this->transactionService->import($data);
+        return redirect()->route('transaction.index')->with('success', $this->transactionService->message());
     }
 }

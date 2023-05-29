@@ -86,7 +86,8 @@
 						</div>
 					</div>
 		
-					<a name="" id="" class="btn btn-success" href="{{ route('transaction.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Novo Lançamento</a>
+					<a name="" id="" class="btn btn-success mr-2" href="{{ route('transaction.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Novo Lançamento</a>
+					<a name="" id="" class="btn btn-info" href="{{ route('transaction.import') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Importar</a>
 
 				</div>
 				<div class="col">

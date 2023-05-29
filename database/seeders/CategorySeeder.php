@@ -17,13 +17,13 @@ class CategorySeeder extends Seeder
         $data = [
             'Alimentação'          => ['Lanches e Refeições', 'Supermercado'],
             'Veículos'             => ['Combustível', 'Estacionamento', 'IPVA/Licenciamento', 'Troca de Óleo/Manutenção', 'Seguro', 'Multas'],
-            'Casa'                 => ['Manutenção', 'Estúdio', 'Tv/Telefone/Internet', 'Água', 'Luz'],
+            'Contas Essenciais'    => ['Manutenção', 'Estúdio', 'Tv/Telefone/Internet', 'Água', 'Luz'],
             'Saúde'                => ['Farmácia', 'Cosméticos'],
             'Lazer'                => ['Viagens/Passeios', 'Cinema'],
-            'Pessoal'              => ['Cabeleireiro', 'Presentes', 'Cursos'],
+            'Pessoal'              => ['Cabeleireiro', 'Presentes', 'Cursos', 'Cartão de Crédito'],
             'Receitas'             => ['Salário', 'Renda Extra', 'Juros', 'Investimentos'],
             'Investimento Eterno'  => ['Dízimos', 'Ofertas'],
-            'Outros'               => ['Não definidos']
+            'Outros'               => ['Presentes p/ Terceiros','Não definidos']
         ];
 
         foreach($data as $cat => $item) {

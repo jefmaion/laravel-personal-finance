@@ -42,13 +42,11 @@ class TransactionService extends Services {
 
     public function create($data) {
 
-        
-
         if(!parent::create($data)) {
             return false;
         }
 
-        if($data['repeat'] == 1) {
+        if(isset($data['repeat']) && $data['repeat'] == 1) {
 
             for($i=1;$i<=$data['num_repeat'];$i++) {
                 $data['date'] = date('Y-m-d', strtotime($data['date'] . '+'.$data['period'].' months'));
@@ -108,6 +106,15 @@ class TransactionService extends Services {
         }
 
         return json_encode(['data' => $data]);
+    }
+
+    public function import($data) {
+        foreach($data as $item) {
+            if(empty($item['value'])) continue;
+            
+            $item['is_paid'] = 1;
+            $this->create($item);
+        }
     }
 
 

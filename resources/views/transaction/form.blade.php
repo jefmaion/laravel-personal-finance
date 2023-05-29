@@ -11,8 +11,7 @@
 
     <div class="form-group col-4">
         <label for="">Tipo</label>
-        <x-form.select name="type" :options="[['R', 'Receitas'], ['D', 'Despesas']]"
-            value="{{ old('type', $transaction->type) }}" />
+        <x-form.select name="type" :options="[['R', 'Receitas'], ['D', 'Despesas']]" value="{{ old('type', $transaction->type) }}" />
 
     </div>
 
@@ -23,8 +22,7 @@
 
     <div class="form-group col-12">
         <label class="form-control-label">Descrição</label>
-        <x-form.input type="text" class="font-weight-bold" name="description"
-            value="{{ old('description', $transaction->description) }}" />
+        <x-form.input type="text" class="font-weight-bold" name="description" value="{{ old('description', $transaction->description) }}" />
 
     </div>
 
@@ -54,14 +52,12 @@
 
     <div class="form-group col-3">
         <label class="form-control-label">Conta</label>
-        <x-form.select name="account_id" :options="$accounts"
-            value="{{ old('account_id', $transaction->account_id) }}" />
+        <x-form.select name="account_id" :options="$accounts" value="{{ old('account_id', $transaction->account_id) }}" />
     </div>
 
     <div class="form-group col-3">
         <label class="form-control-label">Forma</label>
-        <x-form.select name="payment_id" :options="$payments"
-            value="{{ old('payment_id', $transaction->payment_id) }}" />
+        <x-form.select name="payment_id" :options="$payments" value="{{ old('payment_id', $transaction->payment_id) }}" />
     </div>
 
 
@@ -159,18 +155,13 @@
         { "value": "United Kingdom",       "data": "UK" },
         { "value": "United States",        "data": "US" }
     ];
+
     $('[name="description"]').autocomplete({
 
         serviceUrl: '{{ route('transaction.description') }}',
         onSelect: function (suggestion) {
             // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
         }
-
-
-        // lookup: countries,
-        // onSelect: function (suggestion) {
-        //     alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-        // }
     });
 </script>
 <script>
