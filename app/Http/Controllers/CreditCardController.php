@@ -5,17 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\CreditCard;
 use App\Http\Requests\StoreCreditCardRequest;
 use App\Http\Requests\UpdateCreditCardRequest;
+use App\Services\CardService;
+use Illuminate\Http\Request;
 
 class CreditCardController extends Controller
 {
+    private $cardService;
+
+    public function __construct(CardService $cardService)
+    {
+        $this->cardService = $cardService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()){
+            return $this->cardService->listToDatatable();
+         }
+
+        return view('card.index');
     }
 
     /**
@@ -25,7 +38,8 @@ class CreditCardController extends Controller
      */
     public function create()
     {
-        //
+        $card = new CreditCard();
+        return view('card.create', compact('card'));
     }
 
     /**

@@ -42,9 +42,9 @@
 							<td scope="row"><input type="date" class="form-control" name="import[{{ $i }}][date]" value="{{ $item['date'] }}" ></td>
 							<td><input type="text" class="form-control description" name="import[{{ $i }}][description]" value="{{ $item['description'] }}"></td>
 							<td><input type="text" class="form-control" name="import[{{ $i }}][value]" value="{{ $item['value'] }}"></td>
-							<td><x-form.select name="import[{{ $i }}][type]" :options="[['R', 'Receitas'], ['D', 'Despesas']]" value="{{ $item['type'] }}" /></td>
-							<td><x-form.select name="import[{{ $i }}][account_id]" :options="$accounts" value="1" /></td>
-							<td><x-form.select name="import[{{ $i }}][payment_id]" :options="$payments" value="{{ $item['payment_id'] }}"  /></td>
+							<td><x-form.select class="select2" name="import[{{ $i }}][type]" :options="[['R', 'Receitas'], ['D', 'Despesas']]" value="{{ $item['type'] }}" /></td>
+							<td><x-form.select class="select2" name="import[{{ $i }}][account_id]" :options="$accounts" value="1" /></td>
+							<td><x-form.select class="select2" name="import[{{ $i }}][payment_id]" :options="$payments" value="{{ $item['payment_id'] }}"  /></td>
 							
 							<td>
 								<select class="form-control {{ ($errors->has('category_id') ? 'is-invalid' : null) }}" name="import[{{ $i }}][category_id]" id="">
@@ -84,7 +84,15 @@
 
 @section('scripts')
 <script src="{{ asset('js/jquery.autocomplete.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+
+$('.select2').select2({
+    
+	placeholder: 'Selecione uma opção'
+  
+  });
+
     $('.description').autocomplete({
         serviceUrl: '{{ route('transaction.description') }}',
         onSelect: function (suggestion) {
@@ -96,27 +104,7 @@
 @endsection
 
 @section('css')
-<style>
-    .autocomplete-suggestions {
-        border: 1px solid #999;
-        background: #2d3035;;
-        cursor: default;
-        overflow: auto;
-    }
-
-    .autocomplete-suggestion {
-        padding: 2px 5px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .autocomplete-selected {
-        background: #343a40;;
-    }
-
-    .autocomplete-suggestions strong {
-        font-weight: bold;
-        /* color: #3399FF; */
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/autocomplete.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('css/select2.css') }}">
 @endsection

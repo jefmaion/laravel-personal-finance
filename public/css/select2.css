@@ -1,0 +1,28 @@
+.select2-container {
+    border: 1px solid #444951;
+    height: calc(2.4rem + 2px);
+    border: 1px solid #444951;
+    background: transparent;
+    border-radius: 0;
+    color: #979a9f;
+    padding: 0.45rem 0.75rem;
+}
+.select2-container--default .select2-selection--single {
+    width: 100% !important;
+    background-color: transparent;
+    /* position: absolute; */
+    border-radius: 0px;
+    /* border: 1px solid #444951; */
+    border: none;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #979a9f;
+    line-height: auto;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+    position: absolute;
+    top: 1px;
+    right: 4px;
+    width: 20px;
+}

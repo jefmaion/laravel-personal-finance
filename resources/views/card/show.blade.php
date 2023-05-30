@@ -1,53 +1,37 @@
 @extends('template.main')
 
 @section('title')
-<i class="fa fa-money" aria-hidden="true"></i> Lançamentos - Informações
+<i class="fa fa-list" aria-hidden="true"></i> Categorias - Informações
 @endsection
 
 @section('content')
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class=" block user-block">
 
             <h2 class="card-title mt-2">
-                {{ $transaction->date->format('d/m/Y') }}  -   {{ $transaction->description }}
+                <i class="fa fa-dot-circle-o" aria-hidden="true"></i> {{ $category->name }}
             </h2>
 
-            
-
-            <p class="contributions text-center text-{{ ($transaction->type == 'R') ? 'success' : 'danger' }} mt-0">
-                {{ $transaction->transactionType }}
-            </p>
-            
+            {{-- <p class="card-text">
+                Grupo com acesso total ao sistema
+            </p> --}}
 
             <p class="contributions text-center mt-0">
-                R$ 
-                {{ $transaction->value }}
+                @if($category->enabled)
+                    <i class="fa fa-thumbs-up text-success" aria-hidden="true"></i>
+                @else
+                    <i class="fa fa-thumbs-down text-danger" aria-hidden="true"></i>
+                @endif
+
+                {{ $category->status }}
             </p>
 
-            <p class="contributions text-center mt-0">
-                {{ $transaction->category->name }}
+            <p class="card-center">
+                {{ $category->created_at->diffForHUmans() }} | {{ $category->updated_at->diffForHUmans() }}
             </p>
 
-            <p class="contributions text-center mt-0">
-                {{ $transaction->account->name }}
-            </p>
-
-            <p class="contributions text-center mt-0">
-                {{ $transaction->payment->name }}
-            </p>
-
-            <p class="contributions text-center mt-0">
-                {{ $transaction->status }}
-            </p>
-
-            
-            <p class="card-text">
-                {{ $transaction->comments }}
-            </p>
-            <hr>
-
-            <a href="{{ route('transaction.index') }}" class="btn btn-secondary">
+            <a href="{{ route('category.index') }}" class="btn btn-secondary">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 Voltar
             </a>
@@ -65,15 +49,15 @@
                 <div class="dropdown-menu" x-placement="bottom-start"
                     style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
 
-                    <a class="dropdown-item" href="{{ route('transaction.edit', $transaction) }}">
+                    <a class="dropdown-item" href="{{ route('category.edit', $category) }}">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
-                        Editar Lançamento
+                        Editar Categoria
                     </a>
 
-                    <a class="dropdown-item" data-toggle="modal" data-target="#modal-delete-{{ $transaction->id }}"
+                    <a class="dropdown-item" data-toggle="modal" data-target="#modal-delete-{{ $category->id }}"
                         href="#">
                         <i class="fa fa-trash" aria-hidden="true"></i>
-                        Excluir Lançamento
+                        Excluir Categoria
                     </a>
 
                 </div>
@@ -85,7 +69,7 @@
     </div>
 </div>
 
-<div class="modal fasde" id="modal-delete-{{ $transaction->id }}" tabindex="-1" role="dialog"
+<div class="modal fasde" id="modal-delete-{{ $category->id }}" tabindex="-1" role="dialog"
     aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content   ">
@@ -102,7 +86,7 @@
                 <p class="">Deseja excluir esse registro?</p>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('transaction.destroy', $transaction) }}" method="post">
+                <form action="{{ route('category.destroy', $category) }}" method="post">
                     @method('DELETE')
                     @csrf
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">

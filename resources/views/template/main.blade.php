@@ -227,16 +227,27 @@
 		<!-- Sidebar Navigation end-->
 
 		<div class="page-content">
-			<div class="page-header">
+			<div class="page-header no-margin-bottom">
 				<div class="container-fluid">
 					<h2 class="no-margin-bottom font-weight-light">
 						@yield('title')
 					</h2>
 				</div>
 			</div>
+			
+			<div class="container-fluid">
+				@hasSection ('breadcrumb')
+					@yield('breadcrumb')
+				@else
+					<div class="mt-4"></div>
+				@endif
+			</div>
+
 			<section class="no-padding-top no-padding-bottom">
 				<div class="container-fluid">
+					
 					@include('template.parts.alerts')
+
 					@yield('content')
 					
 				</div>

@@ -1,4 +1,4 @@
-<select {{ $attributes }}  class="form-control @error($attributes['name']) is-invalid @enderror ">
+<select {{ $attributes->merge(['class' => 'form-control ' . ($errors->has($attributes['name']) ? 'is-invalid' : null)]) }} >
     <option></option>
     @if($options)
         @foreach($options as $option)

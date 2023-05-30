@@ -11,7 +11,8 @@
 
     <div class="form-group col-4">
         <label for="">Tipo</label>
-        <x-form.select name="type" :options="[['R', 'Receitas'], ['D', 'Despesas']]" value="{{ old('type', $transaction->type) }}" />
+        <x-form.select name="type" class="select2" :options="[['R', 'Receitas'], ['D', 'Despesas']]"
+            value="{{ old('type', $transaction->type) }}" />
 
     </div>
 
@@ -22,24 +23,27 @@
 
     <div class="form-group col-12">
         <label class="form-control-label">Descrição</label>
-        <x-form.input type="text" class="font-weight-bold" name="description" value="{{ old('description', $transaction->description) }}" />
+        <x-form.input type="text" class="font-weight-bold" name="description"
+            value="{{ old('description', $transaction->description) }}" />
 
     </div>
 
 
 
-    <div class="form-group col-6">
+    <div class="form-group col-5">
         <label class="form-control-label">Categoria</label>
         {{--
         <x-form.select name="category_id" :options="$categories"
             value="{{ old('category_id', $transaction->category_id) }}" /> --}}
 
-        <select class="form-control {{ ($errors->has('category_id') ? 'is-invalid' : null) }}" name="category_id" id="">
+        <select class="form-control select2 {{ ($errors->has('category_id') ? 'is-invalid' : null) }}"
+            name="category_id" id="">
             <option></option>
             @foreach($categories as $cat)
             <optgroup label="{{ $cat->name }}">
                 @foreach($cat->subcategories as $sub)
-                <option value="{{ $sub->id }}" {{ (old('category_id', $transaction->category_id) == $sub->id) ? 'selected' : null }}>{{
+                <option value="{{ $sub->id }}" {{ (old('category_id', $transaction->category_id) == $sub->id) ?
+                    'selected' : null }}>{{
                     $sub->name }}</option>
                 @endforeach
             </optgroup>
@@ -50,14 +54,16 @@
     </div>
 
 
-    <div class="form-group col-3">
+    <div class="form-group col">
         <label class="form-control-label">Conta</label>
-        <x-form.select name="account_id" :options="$accounts" value="{{ old('account_id', $transaction->account_id) }}" />
+        <x-form.select class="select2" name="account_id" :options="$accounts"
+            value="{{ old('account_id', $transaction->account_id) }}" />
     </div>
 
-    <div class="form-group col-3">
+    <div class="form-group col">
         <label class="form-control-label">Forma</label>
-        <x-form.select name="payment_id" :options="$payments" value="{{ old('payment_id', $transaction->payment_id) }}" />
+        <x-form.select class="select2" name="payment_id" :options="$payments"
+            value="{{ old('payment_id', $transaction->payment_id) }}" />
     </div>
 
 
@@ -76,32 +82,22 @@
     </div>
 
 
-
-    {{-- <div class="form-group col-6 mx-auto">
-        <label class="form-control-label">Data do Pagamento</label>
-        <x-form.input type="date" name="date" value="{{ $transaction->date->format('Y-m-d') ?? date('Y-m-d') }}" />
-    </div> --}}
-
-
-
-
-
     @if($transaction->id == null)
-        <div class="form-group col-12 d-flex align-items-center">
-            <x-form.checkbox name="repeat" value="{{ old('repeat') }}" label="Repetir Lançamento" />
-        </div>
+    <div class="form-group col-12 d-flex align-items-center">
+        <x-form.checkbox name="repeat" value="{{ old('repeat') }}" label="Repetir Lançamento" />
+    </div>
 
 
-        <div class="container-repeat d-none form-group col-2">
-            <label class="form-control-label">Repetir</label>
-            <x-form.input type="text" name="num_repeat" />
-        </div>
+    <div class="container-repeat d-none form-group col-2">
+        <label class="form-control-label">Repetir</label>
+        <x-form.input type="text" name="num_repeat" />
+    </div>
 
-        <div class="container-repeat d-none form-group col">
-            <label for="">Período</label>
-            <x-form.select name="period"
-                :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]" />
-        </div>
+    <div class="container-repeat d-none form-group col">
+        <label for="">Período</label>
+        <x-form.select name="period"
+            :options="[['1', 'Mensal'], ['2', 'Bimestral'], ['3', 'Trimestral'], ['6', 'Semestral']]" />
+    </div>
     @endif
 
     <div class="form-group col-12">
@@ -119,45 +115,19 @@
 </div>
 
 @section('css')
-<style>
-    .autocomplete-suggestions {
-        border: 1px solid #999;
-        background: #2d3035;;
-        cursor: default;
-        overflow: auto;
-    }
-
-    .autocomplete-suggestion {
-        padding: 2px 5px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .autocomplete-selected {
-        background: #343a40;;
-    }
-
-    .autocomplete-suggestions strong {
-        font-weight: bold;
-        /* color: #3399FF; */
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/autocomplete.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('css/select2.css') }}">
 @endsection
 
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 <script src="{{ asset('js/jquery.mask.config.js') }}"></script>
 <script src="{{ asset('js/jquery.autocomplete.js') }}"></script>
 <script>
-    var countries = [
-        { "value": "United Arab Emirates", "data": "AE" },
-        { "value": "United Kingdom",       "data": "UK" },
-        { "value": "United States",        "data": "US" }
-    ];
-
     $('[name="description"]').autocomplete({
-
         serviceUrl: '{{ route('transaction.description') }}',
         onSelect: function (suggestion) {
             // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
@@ -165,6 +135,11 @@
     });
 </script>
 <script>
+    $('.select2').select2({
+    
+  placeholder: 'Selecione uma opção'
+
+});
 viewRepeatFields({{ old('repeat') }})
 
     $('[name="repeat"]').change(function (e) { 

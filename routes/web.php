@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CreditCardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('/dashboard', DashboardController::class);
 
 Route::get('/transaction/description', [TransactionController::class, 'description'])->name('transaction.description');
 Route::post('/transaction/actions/pay/{status}', [TransactionController::class, 'pay'])->name('transaction.actions.pay');
@@ -33,3 +36,4 @@ Route::resource('/transaction', TransactionController::class);
 Route::resource('/category', CategoryController::class);
 Route::resource('/account', AccountController::class);
 Route::resource('/payment', PaymentController::class);
+Route::resource('/card', CreditCardController::class);

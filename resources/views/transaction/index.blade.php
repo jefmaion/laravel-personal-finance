@@ -1,57 +1,43 @@
 @extends('template.main')
 
 @section('title')
-<i class="fas fa-money-bill    "></i> Lançamentos
+<div class="row">
+	<div class="col">
+		<i class="fas fa-money-bill    "></i> Lançamentos
+	</div>
+	<div class="col-4">
+		<div class="row">
+			<div class="col">
+				{{-- <label class="form-control-label">De</label> --}}
+				<x-form.input type="date" class="range" name="date-from" value="{{ $dateFrom }}" />
+			</div>
+			<div class="col">
+				{{-- <label class="form-control-label">Até</label> --}}
+				<x-form.input type="date" class="range" name="date-to" value="{{ $dateTo }}" />
+			</div>
+			<div class="col">
+				<button type="button" name="" id="range" class="btn btn-primary btn-block">
+					<i class="fa fa-search" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@endsection
+
+@section('breadcrumb')
+<ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+	<li class="breadcrumb-item active">Lançamentos</li>
+  </ul>
 @endsection
 
 @section('content')
+
+
 <div class="row">
-	<div class="col-12 ">
 
-
-		<div class="row">
-			
-			<div class="col-md-4">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title ">
-							<div class="icon "><i class="icon-contract"></i></div><strong>Receitas</strong>
-						</div>
-						<div class="number text-success">R$ {{ currency($incomes) }}</div>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-md-4 ">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title">
-							<div class="icon"><i class="icon-user-1"></i></div><strong>Despesas</strong>
-						</div>
-						<div class="number text-danger">R$ {{ currency($expenses) }}</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4 d-flex">
-				<div class="statistic-block flex-fill block">
-					<div class="progress-details d-flex align-items-end justify-content-between">
-						<div class="title">
-							<div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Saldo</strong>
-						</div>
-						<div class="number text-{{ ($incomes - $expenses) < 0 ? 'danger' : 'success'  }}">R$ {{
-							currency($incomes -
-							$expenses) }}</div>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-
-
-	</div>
 	<div class="col-lg-12">
 		<div class="block">
 
@@ -94,46 +80,69 @@
 					</div>
 		
 					<a name="" id="" class="btn btn-success mr-2" href="{{ route('transaction.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Novo Lançamento</a>
-					{{-- <a name="" id="" class="btn btn-info" href="{{ route('transaction.import') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Importar</a> --}}
 
 				</div>
-				<div class="col">
-					{{-- <label class="form-control-label">De</label> --}}
-					<x-form.input type="date" class="range" name="date-from" value="{{ $dateFrom }}" />
-				</div>
-				<div class="col">
-					{{-- <label class="form-control-label">Até</label> --}}
-					<x-form.input type="date" class="range" name="date-to" value="{{ $dateTo }}" />
-				</div>
-				<div class="col d-flex align-items-end">
-					<a name="" id="" class="btn btn-secondary btn-block" href="#" onclick="location.reload()" role="button">
-						<i class="fa fa-refresh" aria-hidden="true"></i>
-					</a>
-				</div>
+				
 			</div>
-
-			
 			<hr>
 			<form method="POST" id="form">
 				@csrf
 				<table class="table table-striped " id="table-transaction">
 					<thead class="thead-dark">
 						<tr>
-							<th>
-							
-								Data
-							</th>
-
+							<th>Data</th>
 							<th>Descrição</th>
 							<th>Categoria</th>
 							<th>Conta</th>
-							<th>Tipo</th>
 							<th>Valor</th>
 							<th>Status</th>
 						</tr>
 					</thead>
 				</table>
 			</form>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="row">
+			
+			<div class="col-md-4">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title ">
+							<div class="icon "><i class="icon-contract"></i></div><strong>Receitas</strong>
+						</div>
+						<div class="number text-success">R$ {{ currency($incomes) }}</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-md-4 ">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title">
+							<div class="icon"><i class="icon-user-1"></i></div><strong>Despesas</strong>
+						</div>
+						<div class="number text-danger">R$ {{ currency($expenses) }}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 d-flex">
+				<div class="statistic-block flex-fill block">
+					<div class="progress-details d-flex align-items-end justify-content-between">
+						<div class="title">
+							<div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Saldo</strong>
+						</div>
+						<div class="number text-{{ ($incomes - $expenses) < 0 ? 'danger' : 'success'  }}">R$ {{
+							currency($incomes -
+							$expenses) }}</div>
+					</div>
+
+				</div>
+			</div>
+
 		</div>
 	</div>
 
@@ -200,13 +209,12 @@
                 url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
             },
             lengthChange: true,
-            ajax: '{{ route('transaction.index') }}',
+            ajax: endpoint(),
             columns: [
                 {data: 'date'},
                 {data: 'description'},
                 {data: 'category'},
                 {data: 'account'},
-                {data: 'type'},
                 {data: 'value'},
                 {data: 'status'},
             ],
@@ -217,16 +225,18 @@
 			$('.checkbox').prop('checked', $(this).data('value'))
         });
 
-		$('.range').change(function (e) { 
+		$('#range').click(function (e) { 
 			e.preventDefault();
+			location.href = endpoint()
+		});
 
+		function endpoint() {
 			from 	 = $('[name="date-from"]').val()
 			to   	 = $('[name="date-to"]').val()
-			endpoint = '{{ route('transaction.index') }}?from=' + from + '&to=' + to;
+			_endpoint = '{{ route('transaction.index') }}?from=' + from + '&to=' + to;
 
-			table = $('#table-transaction').DataTable();
-			table.ajax.url(endpoint).load();
-		});
+			return _endpoint;
+		}
 
 		function deleteAll() {
 			$('#form').attr('action', '{{ url("transaction/actions/delete") }}')

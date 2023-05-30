@@ -49,8 +49,8 @@ class TransactionController extends Controller
            return $this->transactionService->listToDatatable($dateFrom, $dateTo);
         }
 
-        $expenses = $this->transactionService->sumExpenses();
-        $incomes = $this->transactionService->sumIncomes();
+        $expenses = $this->transactionService->sumExpenses($dateFrom, $dateTo);
+        $incomes = $this->transactionService->sumIncomes($dateFrom, $dateTo);
 
         
 

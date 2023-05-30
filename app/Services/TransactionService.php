@@ -22,13 +22,13 @@ class TransactionService extends Services {
         return $data;
     }
 
-    public function sumExpenses() {
+    public function sumExpenses($from, $to) {
 
-        return Transaction::where('type', 'D')->where('is_paid', 1)->sum('value') + 0;
+        return Transaction::where('type', 'D')->whereBetween('date', [$from, $to])->where('is_paid', 1)->sum('value') + 0;
     }
 
-    public function sumIncomes() {
-        return Transaction::where('type', 'R')->where('is_paid', 1)->sum('value') + 0;
+    public function sumIncomes($from, $to) {
+        return Transaction::where('type', 'R')->whereBetween('date', [$from, $to])->where('is_paid', 1)->sum('value') + 0;
     }
     
     public function listDescriptions($param) {
