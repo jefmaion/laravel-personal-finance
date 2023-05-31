@@ -1,4 +1,4 @@
-@extends('template.main')
+@extends('template.otika.main')
 
 @section('title')
 <i class="fa fa-list" aria-hidden="true"></i> Inicio
@@ -44,7 +44,7 @@
 
 </div>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="line-chart block chart">
             <div class="bar-chart chart">
                 <h5>Receitas x Despesas</h5>
@@ -52,7 +52,15 @@
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-3">
+        <div class="line-chart block chart">
+            <div class="bar-chart chart">
+                <h5>Receitas x Despesas</h5>
+                <div id="pie" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
         <div class="line-chart block chart">
             <div class="bar-chart chart">
                 <h5>Receitas x Despesas</h5>

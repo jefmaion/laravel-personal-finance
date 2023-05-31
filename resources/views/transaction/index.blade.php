@@ -1,4 +1,4 @@
-@extends('template.main')
+@extends('template.otika.main')
 
 @section('title')
 <div class="row">

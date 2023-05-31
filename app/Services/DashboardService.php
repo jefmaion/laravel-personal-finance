@@ -76,7 +76,7 @@ class DashboardService {
 
     public function chartTransactionByCategory() {
         $data = DB::select(DB::raw("SELECT 
-                            c.name,
+                            b.name,
                             sum(a.value) as value
                         FROM 
                             transactions a
@@ -85,9 +85,9 @@ class DashboardService {
                         INNER JOIN
                             categories c ON c.id = b.category_id
                         WHERE
-                            is_paid = 1
+                            is_paid = 1 AND type = 'D'
                         GROUP BY 
-                            c.name")
+                            b.name")
                     );
 
         $rs = [];
